@@ -19,3 +19,30 @@ view of the database at that revision. You can find a revision number having
 ### Usage
 
 Try to APIs on [Postman](https://documenter.getpostman.com/view/2522238/UVeGq5xZ )
+
+
+### Note
+If you add Hibernate Envers to existing Hibernate Entities, you need to write a custom migration script.
+```  
+DO
+$$
+    DECLARE
+        USER_TABLE_RECORD RECORD;
+        HISTORY_INFO_ID   INTEGER;
+    BEGIN
+        FOR USER_TABLE_RECORD IN SELECT * FROM USERS
+
+            LOOP
+                HISTORY_INFO_ID := nextval('history_info_seq');
+
+                insert into history_info(id, date)
+                values (HISTORY_INFO_ID, USER_TABLE_RECORD.created_date);
+
+                insert into users_history(id, HISTORY_INFO_ID, type, first_name, last_name)
+                values (USER_TABLE_RECORD.id, HISTORY_INFO_ID, 0, USER_TABLE_RECORD.first_name,
+                        USER_TABLE_RECORD.last_name);
+            END LOOP;
+
+    END
+$$;
+```
