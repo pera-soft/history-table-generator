@@ -4,10 +4,12 @@ import lombok.Data;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.util.Date;
+
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Table(name = "users")
-@Audited
 @Data
 public class User {
 
@@ -16,8 +18,13 @@ public class User {
     @SequenceGenerator(name = "userSeqGen", sequenceName = "users_seq", allocationSize = 1)
     private int id;
 
+    @Audited
     private String firstName;
 
+    @Audited
     private String lastName;
+
+    @Temporal(TIMESTAMP)
+    private Date createdDate = new Date();
 
 }
