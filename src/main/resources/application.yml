@@ -10,3 +10,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: '_history'
+            revision_field_name: 'history_info_id'
+            revision_type_field_name: 'type'
