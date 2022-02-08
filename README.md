@@ -30,17 +30,19 @@ $$
         USER_TABLE_RECORD RECORD;
         HISTORY_INFO_ID   INTEGER;
     BEGIN
+
+        TRUNCATE TABLE HISTORY_INFO CASCADE;
+
         FOR USER_TABLE_RECORD IN SELECT * FROM USERS
 
             LOOP
-                HISTORY_INFO_ID := nextval('history_info_seq');
+                HISTORY_INFO_ID := NEXTVAL('HISTORY_INFO_SEQ');
 
-                insert into history_info(id, date)
-                values (HISTORY_INFO_ID, USER_TABLE_RECORD.created_date);
+                INSERT INTO HISTORY_INFO(ID, DATE)
+                VALUES (HISTORY_INFO_ID, USER_TABLE_RECORD.CREATED_DATE);
 
-                insert into users_history(id, HISTORY_INFO_ID, type, first_name, last_name)
-                values (USER_TABLE_RECORD.id, HISTORY_INFO_ID, 0, USER_TABLE_RECORD.first_name,
-                        USER_TABLE_RECORD.last_name);
+                INSERT INTO USERS_HISTORY(ID, HISTORY_INFO_ID, TYPE, FIRST_NAME, LAST_NAME)
+                VALUES (USER_TABLE_RECORD.ID, HISTORY_INFO_ID, 0, USER_TABLE_RECORD.FIRST_NAME, USER_TABLE_RECORD.LAST_NAME);
             END LOOP;
 
     END
